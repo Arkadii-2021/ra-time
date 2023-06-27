@@ -1,48 +1,6 @@
 import React, {useState, useEffect} from 'react';
-const dayjs = require('dayjs');
-let relativeTime = require('dayjs/plugin/relativeTime');
-dayjs.extend(relativeTime);
+import VideoList from "./components/VideoList";
 
-
-function DateTime(props) {
-    return (
-        <p className="date">{props.date}</p>
-    )
-}
-
-function withTimePretty() {
-	return function (Component) {
-		function AddRelativeTime(props) {
-			const [time, setTime] = useState()
-
-			useEffect(() => {
-				setTime(() => dayjs().to(dayjs(props.date)))
-			}, [])
-
-			return <Component {...props} date={time} />
-		}
-		
-		const name = Component.displayName || Component.name || 'Component';
-		AddRelativeTime.displayName = `WithData${name}`;
-		
-		return AddRelativeTime
-	}
-}
-
-const DateTimePretty = withTimePretty()(DateTime);
-
-function Video(props) {
-    return (
-        <div className="video">
-            <iframe src={props.url} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            <DateTimePretty date={props.date} />
-        </div>
-    )
-}
-
-function VideoList(props) {
-    return props.list.map(item => <Video url={item.url} date={item.date} />);
-}
 
 export default function App() {
 	// eslint-disable-next-line
